@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Escolinha do Ypiranga</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --azul:#0a2d6e;
+  --azul-md:#1a4db5;
+  --azul-cl:#2e6ef7;
+  --azul-pale:#e8f0fe;
+  --branco:#ffffff;
+  --cinza:#f4f6fb;
+  --cinza-md:#d0d7e8;
+  --cinza-dk:#666e8a;
+  --texto:#1a1f36;
+  --verde:#16a34a;
+  --vermelho:#dc2626;
+  --amarelo:#f59e0b;
+  --sombra:0 4px 24px rgba(10,45,110,.10);
+  --sombra-lg:0 8px 40px rgba(10,45,110,.16);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cinza);color:var(--texto);min-height:100vh}
+
+/* ── UTILITÁRIOS ── */
+.hidden{display:none!important}
+.badge{display:inline-flex;align-items:center;padding:.2rem .65rem;border-radius:20px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+.badge-verde{background:#dcfce7;color:#15803d}
+.badge-vermelho{background:#fee2e2;color:#b91c1c}
+.badge-amarelo{background:#fef3c7;color:#b45309}
+.badge-azul{background:var(–azul-pale);color:var(–azul)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.2rem;border-radius:8px;font-family:‘Nunito’,sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-primary{background:var(–azul-cl);color:#fff}
+.btn-primary:hover{background:var(–azul-md)}
+.btn-secondary{background:var(–azul-pale);color:var(–azul-cl)}
+.btn-secondary:hover{background:var(–cinza-md)}
+.btn-danger{background:#fee2e2;color:var(–vermelho)}
+.btn-danger:hover{background:#fecaca}
+.btn-verde{background:#dcfce7;color:#15803d}
+.btn-verde:hover{background:#bbf7d0}
+.btn-sm{padding:.4rem .85rem;font-size:.8rem}
+.btn-lg{padding:.85rem 1.8rem;font-size:1rem;border-radius:10px}
+input,select,textarea{font-family:‘Nunito’,sans-serif;font-size:.9rem;width:100%;padding:.65rem .9rem;border:1.5px solid var(–cinza-md);border-radius:8px;background:#fff;color:var(–texto);outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(–azul-cl)}
+label{font-size:.82rem;font-weight:700;color:var(–cinza-dk);display:block;margin-bottom:.3rem}
+.form-group{margin-bottom:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.card-box{background:#fff;border-radius:14px;box-shadow:var(–sombra);padding:1.5rem}
+.page{display:none;flex-direction:column;min-height:100vh}
+.page.active{display:flex}
+
+/* ── TELA DE LOGIN ── */
+#page-login{background:linear-gradient(135deg,var(–azul) 0%,var(–azul-cl) 100%);align-items:center;justify-content:center;padding:2rem}
+.login-box{background:#fff;border-radius:20px;padding:2.5rem 2rem;width:100%;max-width:400px;box-shadow:var(–sombra-lg)}
+.login-logo{text-align:center;margin-bottom:1.8rem}
+.login-logo .escudo{width:72px;height:72px;background:var(–azul);border-radius:50% 50% 46% 46%/58% 58% 42% 42%;display:flex;align-items:center;justify-content:center;margin:0 auto .8rem;font-size:2rem}
+.login-logo h1{font-family:‘Bebas Neue’,sans-serif;font-size:1.8rem;color:var(–azul);letter-spacing:.05em;line-height:1}
+.login-logo p{font-size:.8rem;color:var(–cinza-dk);margin-top:.2rem}
+.login-tabs{display:flex;background:var(–cinza);border-radius:10px;padding:.25rem;margin-bottom:1.5rem;gap:.25rem}
+.login-tab{flex:1;text-align:center;padding:.55rem;border-radius:8px;font-size:.82rem;font-weight:700;cursor:pointer;color:var(–cinza-dk);transition:all .2s}
+.login-tab.active{background:#fff;color:var(–azul);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.login-form-group{margin-bottom:1rem}
+.login-form-group label{font-size:.8rem;font-weight:700;color:var(–cinza-dk);display:block;margin-bottom:.3rem}
+.login-btn{width:100%;padding:.8rem;background:var(–azul-cl);color:#fff;border:none;border-radius:10px;font-family:‘Nunito’,sans-serif;font-size:1rem;font-weight:800;cursor:pointer;transition:background .2s;margin-top:.5rem}
+.login-btn:hover{background:var(–azul-md)}
+.demo-hint{background:var(–azul-pale);border-radius:8px;padding:.7rem 1rem;font-size:.75rem;color:var(–azul);margin-top:1rem;line-height:1.5}
+
+/* ── LAYOUT ADMIN / RESPONSÁVEL ── */
+.app-layout{display:flex;flex:1;min-height:100vh}
+.sidebar{width:240px;background:var(–azul);flex-shrink:0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:50;transition:transform .3s}
+.sidebar-logo{padding:1.4rem 1.2rem 1rem;border-bottom:1px solid rgba(255,255,255,.1)}
+.sidebar-logo h2{font-family:‘Bebas Neue’,sans-serif;font-size:1.3rem;color:#fff;letter-spacing:.06em;line-height:1.1}
+.sidebar-logo p{font-size:.7rem;color:rgba(255,255,255,.5);margin-top:.15rem}
+.sidebar-user{padding:.8rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:.7rem}
+.sidebar-avatar{width:36px;height:36px;background:var(–azul-cl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.sidebar-user-info{flex:1;min-width:0}
+.sidebar-user-info strong{display:block;font-size:.8rem;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-user-info span{font-size:.68rem;color:rgba(255,255,255,.5)}
+nav.sidebar-nav{flex:1;padding:.8rem 0;overflow-y:auto}
+.nav-section{padding:.4rem 1.2rem .2rem;font-size:.65rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.nav-item{display:flex;align-items:center;gap:.7rem;padding:.65rem 1.2rem;color:rgba(255,255,255,.7);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;border-left:3px solid transparent;margin:.05rem 0}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,.07)}
+.nav-item.active{color:#fff;background:rgba(255,255,255,.12);border-left-color:rgba(255,255,255,.6)}
+.nav-item .icon{font-size:1rem;width:1.2rem;text-align:center}
+.sidebar-footer{padding:.8rem 1.2rem;border-top:1px solid rgba(255,255,255,.1)}
+.logout-btn{width:100%;padding:.6rem;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:none;border-radius:8px;font-family:‘Nunito’,sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.logout-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.main-content{flex:1;margin-left:240px;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:#fff;padding:.9rem 1.8rem;border-bottom:1px solid var(–cinza-md);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.topbar h1{font-size:1.1rem;font-weight:800;color:var(–azul)}
+.topbar-right{display:flex;align-items:center;gap:.8rem}
+.content-area{padding:1.8rem;flex:1}
+
+/* ── HAMBURGER MOBILE ── */
+.hamburger{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(–azul)}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:49}
+
+/* ── DASHBOARD CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+.stat-card{background:#fff;border-radius:14px;padding:1.2rem 1.4rem;box-shadow:var(–sombra);display:flex;align-items:center;gap:1rem}
+.stat-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.stat-icon.azul{background:var(–azul-pale)}
+.stat-icon.verde{background:#dcfce7}
+.stat-icon.vermelho{background:#fee2e2}
+.stat-icon.amarelo{background:#fef3c7}
+.stat-info strong{display:block;font-size:1.5rem;font-weight:800;color:var(–texto);line-height:1}
+.stat-info span{font-size:.75rem;color:var(–cinza-dk);font-weight:600}
+
+/* ── TABELAS ── */
+.table-wrap{overflow-x:auto;border-radius:12px;box-shadow:var(–sombra)}
+table{width:100%;border-collapse:collapse;background:#fff}
+thead{background:var(–azul);color:#fff}
+th{padding:.8rem 1rem;text-align:left;font-size:.78rem;font-weight:700;letter-spacing:.05em;white-space:nowrap}
+td{padding:.75rem 1rem;font-size:.85rem;border-bottom:1px solid var(–cinza);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(–cinza)}
+.table-actions{display:flex;gap:.4rem;flex-wrap:wrap}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,30,80,.45);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:var(–sombra-lg)}
+.modal-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(–cinza);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:1rem;font-weight:800;color:var(–azul)}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(–cinza-dk);line-height:1}
+.modal-body{padding:1.4rem 1.5rem}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(–cinza);display:flex;justify-content:flex-end;gap:.7rem}
+
+/* ── NOTIFICAÇÃO TOAST ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(–azul);color:#fff;padding:.8rem 1.3rem;border-radius:10px;font-size:.85rem;font-weight:600;box-shadow:var(–sombra-lg);z-index:300;animation:slideUp .3s ease;display:flex;align-items:center;gap:.5rem}
+.toast.verde{background:#15803d}
+.toast.vermelho{background:var(–vermelho)}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SEÇÃO DE AVISOS ── */
+.aviso-card{background:#fff;border-radius:12px;padding:1rem 1.2rem;border-left:4px solid var(–azul-cl);box-shadow:var(–sombra);margin-bottom:.8rem}
+.aviso-card h4{font-size:.9rem;font-weight:800;color:var(–azul);margin-bottom:.25rem}
+.aviso-card p{font-size:.83rem;color:var(–cinza-dk);line-height:1.5}
+.aviso-card .aviso-date{font-size:.72rem;color:var(–cinza-dk);margin-top:.4rem}
+
+/* ── RESPONSIVO ── */
+@media(max-width:768px){
+.sidebar{transform:translateX(-100%)}
+.sidebar.open{transform:translateX(0)}
+.sidebar-overlay.open{display:block}
+.main-content{margin-left:0}
+.hamburger{display:block}
+.form-row{grid-template-columns:1fr}
+.stats-grid{grid-template-columns:1fr 1fr}
+.content-area{padding:1rem}
+}
+@media(max-width:420px){
+.stats-grid{grid-template-columns:1fr}
+}
+
+/* ── SITE PÚBLICO ── */
+#page-site{flex-direction:column}
+.site-nav{background:var(–azul);padding:.9rem 5vw;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.site-nav-logo{font-family:‘Bebas Neue’,sans-serif;font-size:1.4rem;color:#fff;letter-spacing:.06em}
+.site-nav-links{display:flex;gap:1.2rem;align-items:center}
+.site-nav-links a{color:rgba(255,255,255,.8);text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.site-nav-links a:hover{color:#fff}
+.site-hero{background:linear-gradient(135deg,var(–azul) 0%,var(–azul-cl) 100%);padding:80px 5vw 60px;text-align:center;position:relative;overflow:hidden}
+.site-hero::before{content:’’;position:absolute;inset:0;background:url(“data:image/svg+xml,%3Csvg width=‘60’ height=‘60’ viewBox=‘0 0 60 60’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cg fill=‘none’ fill-rule=‘evenodd’%3E%3Cg fill=’%23ffffff’ fill-opacity=‘0.04’%3E%3Cpath d=‘M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z’/%3E%3C/g%3E%3C/g%3E%3C/svg%3E”)}
+.hero-escudo{width:90px;height:90px;background:rgba(255,255,255,.15);border:3px solid rgba(255,255,255,.4);border-radius:50% 50% 46% 46%/58% 58% 42% 42%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.2rem;font-size:2.4rem}
+.site-hero h1{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(2.5rem,7vw,4.5rem);color:#fff;letter-spacing:.04em;line-height:1}
+.site-hero p{color:rgba(255,255,255,.75);font-size:1rem;max-width:520px;margin:.8rem auto 2rem;line-height:1.7}
+.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.hero-btn-main{background:#fff;color:var(–azul);padding:.9rem 2rem;border-radius:10px;font-weight:800;font-size:.95rem;text-decoration:none;transition:all .2s;border:2px solid #fff}
+.hero-btn-main:hover{background:transparent;color:#fff}
+.hero-btn-sec{border:2px solid rgba(255,255,255,.5);color:#fff;padding:.9rem 2rem;border-radius:10px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .2s}
+.hero-btn-sec:hover{background:rgba(255,255,255,.1)}
+.site-section{padding:60px 5vw}
+.site-section.alt{background:#fff}
+.section-header{text-align:center;margin-bottom:2.5rem}
+.section-label{font-size:.72rem;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:var(–azul-cl);margin-bottom:.4rem}
+.section-title{font-family:‘Bebas Neue’,sans-serif;font-size:clamp(1.8rem,4vw,3rem);color:var(–azul);letter-spacing:.04em}
+.site-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem}
+.site-card{background:#fff;border-radius:14px;padding:1.5rem;box-shadow:var(–sombra);border-top:3px solid var(–azul-cl);text-align:center}
+.site-card .scard-icon{font-size:2rem;margin-bottom:.8rem}
+.site-card h3{font-weight:800;font-size:1rem;color:var(–azul);margin-bottom:.4rem}
+.site-card p{font-size:.85rem;color:var(–cinza-dk);line-height:1.6}
+.site-nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1.5rem;text-align:center}
+.site-num strong{display:block;font-family:‘Bebas Neue’,sans-serif;font-size:3rem;color:var(–azul-cl);line-height:1}
+.site-num span{font-size:.8rem;color:var(–cinza-dk);font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.site-footer{background:var(–azul);padding:2.5rem 5vw;text-align:center;color:rgba(255,255,255,.5);font-size:.82rem}
+.site-footer strong{color:rgba(255,255,255,.85)}
+
+/* ── WHATSAPP FLOAT ── */
+.wa-float{position:fixed;bottom:1.5rem;left:1.5rem;width:52px;height:52px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,.4);z-index:99;transition:transform .2s}
+.wa-float:hover{transform:scale(1.1)}
+
+/* ── ÁREA DO RESPONSÁVEL ── */
+.resp-header{background:linear-gradient(135deg,var(–azul),var(–azul-cl));padding:1.5rem;color:#fff;border-radius:14px;margin-bottom:1.5rem}
+.resp-header h2{font-family:‘Bebas Neue’,sans-serif;font-size:1.6rem;letter-spacing:.04em}
+.resp-header p{font-size:.85rem;opacity:.75;margin-top:.2rem}
+.mensalidade-card{background:#fff;border-radius:14px;box-shadow:var(–sombra);overflow:hidden;margin-bottom:1rem}
+.mensalidade-header{padding:1rem 1.2rem;border-bottom:1px solid var(–cinza);display:flex;align-items:center;justify-content:space-between}
+.mensalidade-header strong{font-size:.95rem;color:var(–azul)}
+.mensalidade-list{padding:.5rem 0}
+.mensalidade-item{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1.2rem;border-bottom:1px solid var(–cinza)}
+.mensalidade-item:last-child{border-bottom:none}
+.mensalidade-item .mes{font-size:.88rem;font-weight:700;color:var(–texto)}
+.mensalidade-item .valor{font-size:.88rem;font-weight:800;color:var(–azul)}
+</style>
+
+</head>
+<body>
+
+<!-- ══════════════ PÁGINA: SITE PÚBLICO ══════════════ -->
+
+<div id="page-site" class="page active">
+  <nav class="site-nav">
+    <span class="site-nav-logo">⚽ Escolinha do Ypiranga</span>
+    <div class="site-nav-links">
+      <a href="#modalidades">Modalidades</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+      <a href="#" onclick="showPage('page-login')" class="btn btn-primary btn-sm" style="color:#fff">Área do Aluno</a>
+    </div>
+  </nav>
+
+  <div class="site-hero">
+    <div class="hero-escudo">⚽</div>
+    <h1>Escolinha do Ypiranga</h1>
+    <p>Formando campeões dentro e fora de campo. Técnica, disciplina e paixão pelo futebol desde os primeiros passos.</p>
+    <div class="hero-btns">
+      <a href="#" onclick="showPage('page-login')" class="hero-btn-main">Matricule-se Online</a>
+      <a href="#sobre" class="hero-btn-sec">Conheça a Escolinha</a>
+    </div>
+  </div>
+
+  <section class="site-section" id="modalidades">
+    <div class="section-header">
+      <p class="section-label">O que oferecemos</p>
+      <h2 class="section-title">Nossas Modalidades</h2>
+    </div>
+    <div class="site-cards">
+      <div class="site-card"><div class="scard-icon">👶</div><h3>Baby Futebol</h3><p>3 a 6 anos — iniciação lúdica e desenvolvimento motor.</p></div>
+      <div class="site-card"><div class="scard-icon">🧒</div><h3>Infantil</h3><p>7 a 12 anos — fundamentos técnicos e trabalho em equipe.</p></div>
+      <div class="site-card"><div class="scard-icon">🧑</div><h3>Juvenil</h3><p>13 a 17 anos — tática, físico e preparação competitiva.</p></div>
+      <div class="site-card"><div class="scard-icon">🏃</div><h3>Adulto</h3><p>18+ anos — saúde, bem-estar e amor pelo esporte.</p></div>
+    </div>
+  </section>
+
+  <section class="site-section alt" id="sobre">
+    <div class="section-header">
+      <p class="section-label">Nossa História</p>
+      <h2 class="section-title">Números que falam por si</h2>
+    </div>
+    <div class="site-nums">
+      <div class="site-num"><strong>500+</strong><span>Alunos formados</span></div>
+      <div class="site-num"><strong>15</strong><span>Anos de história</span></div>
+      <div class="site-num"><strong>20+</strong><span>Profissionais</span></div>
+      <div class="site-num"><strong>30+</strong><span>Títulos regionais</span></div>
+    </div>
+  </section>
+
+  <section class="site-section" id="contato">
+    <div class="section-header">
+      <p class="section-label">Fale Conosco</p>
+      <h2 class="section-title">Entre em Contato</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;max-width:700px;margin:0 auto;text-align:center">
+      <div class="site-card"><div class="scard-icon">📍</div><h3>Endereço</h3><p>Rua Ypiranga, 100<br>Centro — Sua Cidade</p></div>
+      <div class="site-card"><div class="scard-icon">📞</div><h3>Telefone</h3><p>(11) 99999-9999<br>WhatsApp disponível</p></div>
+      <div class="site-card"><div class="scard-icon">🕐</div><h3>Horários</h3><p>Seg a Sáb<br>8h às 20h</p></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <strong>Escolinha do Ypiranga</strong> · Todos os direitos reservados · 2026<br>
+    <span style="margin-top:.4rem;display:block">
+      <a href="#" onclick="showPage('page-login')" style="color:rgba(255,255,255,.6);text-decoration:underline">Área Administrativa</a> ·
+      <a href="#" onclick="showPage('page-login')" style="color:rgba(255,255,255,.6);text-decoration:underline">Área do Aluno</a>
+    </span>
+  </footer>
+
+<a href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Tenho%20interesse%20na%20Escolinha%20do%20Ypiranga." target="_blank" class="wa-float" title="WhatsApp">💬</a>
+
+</div>
+
+<!-- ══════════════ PÁGINA: LOGIN ══════════════ -->
+
+<div id="page-login" class="page">
+  <div id="page-login-inner" style="background:linear-gradient(135deg,var(--azul) 0%,var(--azul-cl) 100%);flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;flex-direction:column">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="escudo">⚽</div>
+        <h1>Escolinha do Ypiranga</h1>
+        <p>Acesse sua área</p>
+      </div>
+      <div class="login-tabs">
+        <div class="login-tab active" onclick="switchLoginTab('admin')">Administrador</div>
+        <div class="login-tab" onclick="switchLoginTab('resp')">Responsável/Aluno</div>
+      </div>
+      <div id="login-admin-form">
+        <div class="login-form-group"><label>Usuário</label><input id="admin-user" type="text" placeholder="admin" value="admin"/></div>
+        <div class="login-form-group"><label>Senha</label><input id="admin-pass" type="password" placeholder="••••••" value="1234"/></div>
+        <button class="login-btn" onclick="loginAdmin()">Entrar como Administrador</button>
+      </div>
+      <div id="login-resp-form" class="hidden">
+        <div class="login-form-group"><label>CPF ou E-mail</label><input id="resp-user" type="text" placeholder="000.000.000-00" value="resp1"/></div>
+        <div class="login-form-group"><label>Senha</label><input id="resp-pass" type="password" placeholder="••••••" value="1234"/></div>
+        <button class="login-btn" onclick="loginResp()">Entrar</button>
+      </div>
+      <div class="demo-hint">
+        🔑 <strong>Demo Admin:</strong> admin / 1234<br>
+        🔑 <strong>Demo Responsável:</strong> resp1 / 1234
+      </div>
+    </div>
+    <a href="#" onclick="showPage('page-site')" style="color:rgba(255,255,255,.6);font-size:.82rem;margin-top:1rem;text-decoration:underline">← Voltar ao site</a>
+  </div>
+</div>
+
+<!-- ══════════════ PÁGINA: PAINEL ADMIN ══════════════ -->
+
+<div id="page-admin" class="page">
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="admin-sidebar">
+      <div class="sidebar-logo">
+        <h2>⚽ Ypiranga</h2>
+        <p>Painel Administrativo</p>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">👤</div>
+        <div class="sidebar-user-info">
+          <strong>Administrador</strong>
+          <span>Acesso total</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section">Principal</div>
+        <div class="nav-item active" onclick="adminNav('dashboard',this)"><span class="icon">📊</span>Dashboard</div>
+        <div class="nav-section">Gestão</div>
+        <div class="nav-item" onclick="adminNav('alunos',this)"><span class="icon">👥</span>Alunos</div>
+        <div class="nav-item" onclick="adminNav('matriculas',this)"><span class="icon">📋</span>Matrículas</div>
+        <div class="nav-item" onclick="adminNav('mensalidades',this)"><span class="icon">💰</span>Mensalidades</div>
+        <div class="nav-section">Comunicação</div>
+        <div class="nav-item" onclick="adminNav('avisos',this)"><span class="icon">📢</span>Avisos</div>
+        <div class="nav-item" onclick="adminNav('relatorios',this)"><span class="icon">📈</span>Relatórios</div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">🚪 Sair</button>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="admin-overlay" onclick="closeSidebar()"></div>
+
+```
+<!-- Main -->
+<div class="main-content">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <button class="hamburger" onclick="toggleSidebar()">☰</button>
+      <h1 id="admin-page-title">Dashboard</h1>
+    </div>
+    <div class="topbar-right">
+      <span style="font-size:.8rem;color:var(--cinza-dk)" id="topbar-date"></span>
+    </div>
+  </div>
+  <div class="content-area">
+
+    <!-- DASHBOARD -->
+    <div id="sec-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon azul">👥</div><div class="stat-info"><strong id="st-alunos">0</strong><span>Alunos Ativos</span></div></div>
+        <div class="stat-card"><div class="stat-icon verde">✅</div><div class="stat-info"><strong id="st-pagos">0</strong><span>Mensalidades Pagas</span></div></div>
+        <div class="stat-card"><div class="stat-icon vermelho">⚠️</div><div class="stat-info"><strong id="st-pend">0</strong><span>Mensalidades Pendentes</span></div></div>
+        <div class="stat-card"><div class="stat-icon amarelo">💵</div><div class="stat-info"><strong id="st-receita">R$0</strong><span>Receita do Mês</span></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem">
+        <div class="card-box">
+          <h3 style="font-size:.9rem;font-weight:800;color:var(--azul);margin-bottom:1rem">📋 Últimas Matrículas</h3>
+          <div id="dash-matriculas"></div>
+        </div>
+        <div class="card-box">
+          <h3 style="font-size:.9rem;font-weight:800;color:var(--azul);margin-bottom:1rem">⚠️ Mensalidades Pendentes</h3>
+          <div id="dash-pendentes"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALUNOS -->
+    <div id="sec-alunos" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+        <input type="text" placeholder="🔍 Buscar aluno..." style="max-width:260px" oninput="filtrarAlunos(this.value)"/>
+        <button class="btn btn-primary" onclick="openModal('modal-aluno')">+ Novo Aluno</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Nome</th><th>Categoria</th><th>Responsável</th><th>Tel. Responsável</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="tabela-alunos"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MATRÍCULAS -->
+    <div id="sec-matriculas" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+        <h3 style="font-size:.95rem;font-weight:800;color:var(--azul)">Todas as Matrículas</h3>
+        <button class="btn btn-primary" onclick="openModal('modal-matricula')">+ Nova Matrícula</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aluno</th><th>Categoria</th><th>Data Matrícula</th><th>Mensalidade</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="tabela-matriculas"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MENSALIDADES -->
+    <div id="sec-mensalidades" class="hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;flex-wrap:wrap;gap:.8rem">
+        <select id="filtro-mes" onchange="renderMensalidades()" style="max-width:200px">
+          <option value="">Todos os meses</option>
+          <option value="Janeiro">Janeiro</option><option value="Fevereiro">Fevereiro</option>
+          <option value="Março">Março</option><option value="Abril">Abril</option>
+          <option value="Maio">Maio</option><option value="Junho">Junho</option>
+          <option value="Julho">Julho</option><option value="Agosto">Agosto</option>
+          <option value="Setembro">Setembro</option><option value="Outubro">Outubro</option>
+          <option value="Novembro">Novembro</option><option value="Dezembro">Dezembro</option>
+        </select>
+        <button class="btn btn-primary" onclick="openModal('modal-mensalidade')">+ Lançar Mensalidade</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aluno</th><th>Mês</th><th>Vencimento</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+          <tbody id="tabela-mensalidades"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- AVISOS -->
+    <div id="sec-avisos" class="hidden">
+      <div style="display:flex;justify-content:flex-end;margin-bottom:1.2rem">
+        <button class="btn btn-primary" onclick="openModal('modal-aviso')">+ Novo Aviso</button>
+      </div>
+      <div id="lista-avisos"></div>
+    </div>
+
+    <!-- RELATÓRIOS -->
+    <div id="sec-relatorios" class="hidden">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem">
+        <div class="card-box">
+          <h3 style="font-size:.95rem;font-weight:800;color:var(--azul);margin-bottom:1rem">📊 Resumo Financeiro</h3>
+          <div id="rel-financeiro"></div>
+        </div>
+        <div class="card-box">
+          <h3 style="font-size:.95rem;font-weight:800;color:var(--azul);margin-bottom:1rem">👥 Alunos por Categoria</h3>
+          <div id="rel-categorias"></div>
+        </div>
+        <div class="card-box" style="grid-column:1/-1">
+          <h3 style="font-size:.95rem;font-weight:800;color:var(--azul);margin-bottom:1rem">⚠️ Inadimplentes</h3>
+          <div id="rel-inadimplentes"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════════ PÁGINA: ÁREA DO RESPONSÁVEL ══════════════ -->
+
+<div id="page-resp" class="page">
+  <div class="app-layout">
+    <aside class="sidebar" id="resp-sidebar">
+      <div class="sidebar-logo">
+        <h2>⚽ Ypiranga</h2>
+        <p>Área do Responsável</p>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">👪</div>
+        <div class="sidebar-user-info">
+          <strong id="resp-nome-sidebar">Responsável</strong>
+          <span id="resp-aluno-sidebar">—</span>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="respNav('inicio',this)"><span class="icon">🏠</span>Início</div>
+        <div class="nav-item" onclick="respNav('mensalidades-resp',this)"><span class="icon">💰</span>Mensalidades</div>
+        <div class="nav-item" onclick="respNav('historico',this)"><span class="icon">📄</span>Histórico</div>
+        <div class="nav-item" onclick="respNav('avisos-resp',this)"><span class="icon">📢</span>Avisos</div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">🚪 Sair</button>
+      </div>
+    </aside>
+    <div class="sidebar-overlay" id="resp-overlay" onclick="closeRespSidebar()"></div>
+
+```
+<div class="main-content">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:.8rem">
+      <button class="hamburger" onclick="toggleRespSidebar()">☰</button>
+      <h1 id="resp-page-title">Início</h1>
+    </div>
+  </div>
+  <div class="content-area">
+
+    <div id="rsec-inicio">
+      <div class="resp-header">
+        <h2 id="resp-welcome">Olá, Responsável!</h2>
+        <p id="resp-aluno-info">Acompanhe as informações do seu aluno</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem">
+        <div class="stat-card"><div class="stat-icon azul">🎓</div><div class="stat-info"><strong id="r-categoria">—</strong><span>Categoria</span></div></div>
+        <div class="stat-card"><div class="stat-icon verde">✅</div><div class="stat-info"><strong id="r-pagas">0</strong><span>Mensalidades Pagas</span></div></div>
+        <div class="stat-card"><div class="stat-icon vermelho">⚠️</div><div class="stat-info"><strong id="r-pendentes">0</strong><span>Pendentes</span></div></div>
+      </div>
+      <div class="card-box">
+        <h3 style="font-size:.9rem;font-weight:800;color:var(--azul);margin-bottom:1rem">📋 Mensalidades Recentes</h3>
+        <div id="resp-mens-recentes"></div>
+      </div>
+    </div>
+
+    <div id="rsec-mensalidades-resp" class="hidden">
+      <div class="mensalidade-card">
+        <div class="mensalidade-header"><strong>Mensalidades</strong></div>
+        <div class="mensalidade-list" id="resp-mens-lista"></div>
+      </div>
+    </div>
+
+    <div id="rsec-historico" class="hidden">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mês</th><th>Vencimento</th><th>Valor</th><th>Status</th></tr></thead>
+          <tbody id="resp-historico-tabela"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="rsec-avisos-resp" class="hidden">
+      <div id="resp-avisos-lista"></div>
+    </div>
+
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ══════════════ MODAIS ══════════════ -->
+
+<!-- Modal: Novo Aluno -->
+
+<div class="modal-overlay" id="modal-aluno">
+  <div class="modal">
+    <div class="modal-header"><h3>Novo Aluno</h3><button class="modal-close" onclick="closeModal('modal-aluno')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Nome do Aluno</label><input id="a-nome" placeholder="Nome completo"/></div>
+        <div class="form-group"><label>Data de Nascimento</label><input id="a-nasc" type="date"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Categoria</label>
+          <select id="a-cat"><option>Baby Futebol (3-6)</option><option>Infantil (7-12)</option><option>Juvenil (13-17)</option><option>Adulto (18+)</option></select>
+        </div>
+        <div class="form-group"><label>Status</label>
+          <select id="a-status"><option>Ativo</option><option>Inativo</option></select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Nome do Responsável</label><input id="a-resp" placeholder="Nome do responsável"/></div>
+        <div class="form-group"><label>Telefone do Responsável</label><input id="a-tel" placeholder="(11) 99999-9999"/></div>
+      </div>
+      <div class="form-group"><label>E-mail do Responsável</label><input id="a-email" type="email" placeholder="email@exemplo.com"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Login (CPF ou e-mail)</label><input id="a-login" placeholder="Login de acesso"/></div>
+        <div class="form-group"><label>Senha de acesso</label><input id="a-senha" type="text" placeholder="Senha inicial"/></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-aluno')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarAluno()">Salvar Aluno</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Nova Matrícula -->
+
+<div class="modal-overlay" id="modal-matricula">
+  <div class="modal">
+    <div class="modal-header"><h3>Nova Matrícula</h3><button class="modal-close" onclick="closeModal('modal-matricula')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Aluno</label><select id="m-aluno"></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>Categoria</label>
+          <select id="m-cat"><option>Baby Futebol (3-6)</option><option>Infantil (7-12)</option><option>Juvenil (13-17)</option><option>Adulto (18+)</option></select>
+        </div>
+        <div class="form-group"><label>Valor da Mensalidade</label><input id="m-valor" type="number" placeholder="150.00"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Data de Matrícula</label><input id="m-data" type="date"/></div>
+        <div class="form-group"><label>Status</label>
+          <select id="m-status"><option>Ativa</option><option>Inativa</option><option>Pendente</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-matricula')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarMatricula()">Salvar Matrícula</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Mensalidade -->
+
+<div class="modal-overlay" id="modal-mensalidade">
+  <div class="modal">
+    <div class="modal-header"><h3>Lançar Mensalidade</h3><button class="modal-close" onclick="closeModal('modal-mensalidade')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Aluno</label><select id="men-aluno"></select></div>
+      <div class="form-row">
+        <div class="form-group"><label>Mês de Referência</label>
+          <select id="men-mes">
+            <option>Janeiro</option><option>Fevereiro</option><option>Março</option><option>Abril</option>
+            <option>Maio</option><option>Junho</option><option>Julho</option><option>Agosto</option>
+            <option>Setembro</option><option>Outubro</option><option>Novembro</option><option>Dezembro</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Vencimento</label><input id="men-venc" type="date"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Valor (R$)</label><input id="men-valor" type="number" placeholder="150.00"/></div>
+        <div class="form-group"><label>Status</label>
+          <select id="men-status"><option>Pendente</option><option>Pago</option><option>Atrasado</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-mensalidade')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarMensalidade()">Lançar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Aviso -->
+
+<div class="modal-overlay" id="modal-aviso">
+  <div class="modal">
+    <div class="modal-header"><h3>Novo Aviso</h3><button class="modal-close" onclick="closeModal('modal-aviso')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Título</label><input id="av-titulo" placeholder="Título do aviso"/></div>
+      <div class="form-group"><label>Mensagem</label><textarea id="av-msg" rows="4" placeholder="Escreva o aviso aqui..."></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-aviso')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarAviso()">Publicar Aviso</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════ DADOS ══════════════
+let db = {
+  alunos: [
+    {id:1,nome:'Lucas Oliveira',nasc:'2015-03-10',cat:'Infantil (7-12)',resp:'Maria Oliveira',tel:'(11)98765-4321',email:'maria@email.com',login:'resp1',senha:'1234',status:'Ativo'},
+    {id:2,nome:'Gabriel Santos',nasc:'2012-07-22',cat:'Juvenil (13-17)',resp:'João Santos',tel:'(11)91234-5678',email:'joao@email.com',login:'resp2',senha:'1234',status:'Ativo'},
+    {id:3,nome:'Pedro Lima',nasc:'2018-01-05',cat:'Baby Futebol (3-6)',resp:'Ana Lima',tel:'(11)97654-3210',email:'ana@email.com',login:'resp3',senha:'1234',status:'Ativo'},
+    {id:4,nome:'Mateus Costa',nasc:'2009-11-30',cat:'Adulto (18+)',resp:'Carlos Costa',tel:'(11)99887-6543',email:'carlos@email.com',login:'resp4',senha:'1234',status:'Inativo'},
+  ],
+  matriculas: [
+    {id:1,alunoId:1,cat:'Infantil (7-12)',data:'2025-02-01',valor:150,status:'Ativa'},
+    {id:2,alunoId:2,cat:'Juvenil (13-17)',data:'2025-01-15',valor:180,status:'Ativa'},
+    {id:3,alunoId:3,cat:'Baby Futebol (3-6)',data:'2025-03-01',valor:120,status:'Ativa'},
+    {id:4,alunoId:4,cat:'Adulto (18+)',data:'2024-08-10',valor:200,status:'Inativa'},
+  ],
+  mensalidades: [
+    {id:1,alunoId:1,mes:'Abril',venc:'2026-04-10',valor:150,status:'Pago'},
+    {id:2,alunoId:2,mes:'Abril',venc:'2026-04-10',valor:180,status:'Pendente'},
+    {id:3,alunoId:3,mes:'Abril',venc:'2026-04-10',valor:120,status:'Pago'},
+    {id:4,alunoId:1,mes:'Março',venc:'2026-03-10',valor:150,status:'Pago'},
+    {id:5,alunoId:2,mes:'Março',venc:'2026-03-10',valor:180,status:'Atrasado'},
+    {id:6,alunoId:3,mes:'Março',venc:'2026-03-10',valor:120,status:'Pago'},
+  ],
+  avisos: [
+    {id:1,titulo:'Treinos de Férias',msg:'Informamos que durante o mês de julho os treinos terão horário especial. Confira com o treinador.',data:'2026-04-20'},
+    {id:2,titulo:'Torneio Regional',msg:'Nossa escolinha participará do Torneio Regional em maio. Convocação em breve!',data:'2026-04-15'},
+  ],
+  nextId: {alunos:5,matriculas:5,mensalidades:7,avisos:3},
+};
+
+let currentUser = null;
+
+// ══════════════ NAVEGAÇÃO ENTRE PÁGINAS ══════════════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ══════════════ LOGIN ══════════════
+function switchLoginTab(tab){
+  document.querySelectorAll('.login-tab').forEach((t,i)=>t.classList.toggle('active',i===(tab==='admin'?0:1)));
+  document.getElementById('login-admin-form').classList.toggle('hidden',tab!=='admin');
+  document.getElementById('login-resp-form').classList.toggle('hidden',tab!=='resp');
+}
+
+function loginAdmin(){
+  const u=document.getElementById('admin-user').value;
+  const p=document.getElementById('admin-pass').value;
+  if(u==='admin'&&p==='1234'){
+    currentUser={tipo:'admin'};
+    showPage('page-admin');
+    initAdmin();
+    showToast('✅ Bem-vindo, Administrador!','verde');
+  } else showToast('❌ Usuário ou senha incorretos','vermelho');
+}
+
+function loginResp(){
+  const u=document.getElementById('resp-user').value;
+  const p=document.getElementById('resp-pass').value;
+  const aluno=db.alunos.find(a=>a.login===u&&a.senha===p);
+  if(aluno){
+    currentUser={tipo:'resp',aluno};
+    showPage('page-resp');
+    initResp(aluno);
+    showToast(`✅ Bem-vindo, ${aluno.resp}!`,'verde');
+  } else showToast('❌ Usuário ou senha incorretos','vermelho');
+}
+
+function logout(){
+  currentUser=null;
+  showPage('page-login');
+}
+
+// ══════════════ ADMIN: INIT ══════════════
+function initAdmin(){
+  document.getElementById('topbar-date').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  adminNav('dashboard',document.querySelector('#page-admin .nav-item'));
+}
+
+function adminNav(sec,el){
+  document.querySelectorAll('#page-admin .nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#page-admin [id^="sec-"]').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('sec-'+sec).classList.remove('hidden');
+  const titles={dashboard:'Dashboard',alunos:'Alunos',matriculas:'Matrículas',mensalidades:'Mensalidades',avisos:'Avisos',relatorios:'Relatórios'};
+  document.getElementById('admin-page-title').textContent=titles[sec]||sec;
+  if(sec==='dashboard') renderDashboard();
+  else if(sec==='alunos') renderAlunos();
+  else if(sec==='matriculas') renderMatriculas();
+  else if(sec==='mensalidades') renderMensalidades();
+  else if(sec==='avisos') renderAvisos();
+  else if(sec==='relatorios') renderRelatorios();
+}
+
+// ══════════════ DASHBOARD ══════════════
+function renderDashboard(){
+  const ativos=db.alunos.filter(a=>a.status==='Ativo').length;
+  const pagos=db.mensalidades.filter(m=>m.status==='Pago'&&m.mes==='Abril').length;
+  const pend=db.mensalidades.filter(m=>m.status==='Pendente'||m.status==='Atrasado').length;
+  const receita=db.mensalidades.filter(m=>m.status==='Pago'&&m.mes==='Abril').reduce((s,m)=>s+m.valor,0);
+  document.getElementById('st-alunos').textContent=ativos;
+  document.getElementById('st-pagos').textContent=pagos;
+  document.getElementById('st-pend').textContent=pend;
+  document.getElementById('st-receita').textContent='R$'+receita.toLocaleString('pt-BR');
+
+  const ultMat=db.matriculas.slice(-3).reverse().map(m=>{
+    const a=db.alunos.find(al=>al.id===m.alunoId);
+    return `<div style="padding:.5rem 0;border-bottom:1px solid var(--cinza);font-size:.83rem;display:flex;justify-content:space-between">
+      <span><strong>${a?a.nome:'—'}</strong><br><span style="color:var(--cinza-dk)">${m.cat}</span></span>
+      <span class="badge badge-${m.status==='Ativa'?'verde':'vermelho'}">${m.status}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('dash-matriculas').innerHTML=ultMat||'<p style="color:var(--cinza-dk);font-size:.83rem">Nenhuma matrícula.</p>';
+
+  const pendentes=db.mensalidades.filter(m=>m.status==='Pendente'||m.status==='Atrasado').map(m=>{
+    const a=db.alunos.find(al=>al.id===m.alunoId);
+    const cor=m.status==='Atrasado'?'vermelho':'amarelo';
+    return `<div style="padding:.5rem 0;border-bottom:1px solid var(--cinza);font-size:.83rem;display:flex;justify-content:space-between;align-items:center">
+      <span><strong>${a?a.nome:'—'}</strong> — ${m.mes}</span>
+      <div style="display:flex;gap:.4rem;align-items:center">
+        <span class="badge badge-${cor}">${m.status}</span>
+        <button class="btn btn-sm" style="background:#25d366;color:#fff;font-size:.7rem" onclick="enviarWhatsApp(${m.alunoId},${m.id})">💬</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('dash-pendentes').innerHTML=pendentes||'<p style="color:var(--cinza-dk);font-size:.83rem">✅ Nenhuma pendência!</p>';
+}
+
+// ══════════════ ALUNOS ══════════════
+function renderAlunos(filtro=''){
+  const lista=filtro?db.alunos.filter(a=>a.nome.toLowerCase().includes(filtro.toLowerCase())):db.alunos;
+  document.getElementById('tabela-alunos').innerHTML=lista.map(a=>`
+    <tr>
+      <td><strong>${a.nome}</strong></td>
+      <td>${a.cat}</td>
+      <td>${a.resp}</td>
+      <td>${a.tel}</td>
+      <td><span class="badge badge-${a.status==='Ativo'?'verde':'vermelho'}">${a.status}</span></td>
+      <td><div class="table-actions">
+        <button class="btn btn-sm btn-secondary" onclick="editarAluno(${a.id})">✏️ Editar</button>
+        <button class="btn btn-sm" style="background:#25d366;color:#fff" onclick="enviarWhatsAppContato(${a.id})">💬 WA</button>
+        <button class="btn btn-sm btn-danger" onclick="excluirAluno(${a.id})">🗑️</button>
+      </div></td>
+    </tr>`).join('');
+}
+
+function filtrarAlunos(v){renderAlunos(v)}
+
+function salvarAluno(){
+  const nome=document.getElementById('a-nome').value.trim();
+  if(!nome){showToast('❌ Informe o nome do aluno','vermelho');return;}
+  db.alunos.push({
+    id:db.nextId.alunos++,
+    nome,nasc:document.getElementById('a-nasc').value,
+    cat:document.getElementById('a-cat').value,
+    resp:document.getElementById('a-resp').value,
+    tel:document.getElementById('a-tel').value,
+    email:document.getElementById('a-email').value,
+    login:document.getElementById('a-login').value,
+    senha:document.getElementById('a-senha').value,
+    status:document.getElementById('a-status').value
+  });
+  closeModal('modal-aluno');
+  renderAlunos();
+  showToast('✅ Aluno cadastrado com sucesso!','verde');
+}
+
+function editarAluno(id){
+  const a=db.alunos.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('a-nome').value=a.nome;
+  document.getElementById('a-nasc').value=a.nasc;
+  document.getElementById('a-cat').value=a.cat;
+  document.getElementById('a-resp').value=a.resp;
+  document.getElementById('a-tel').value=a.tel;
+  document.getElementById('a-email').value=a.email;
+  document.getElementById('a-login').value=a.login;
+  document.getElementById('a-senha').value=a.senha;
+  document.getElementById('a-status').value=a.status;
+  openModal('modal-aluno');
+}
+
+function excluirAluno(id){
+  if(!confirm('Excluir este aluno?'))return;
+  db.alunos=db.alunos.filter(a=>a.id!==id);
+  renderAlunos();
+  showToast('Aluno removido.','');
+}
+
+// ══════════════ MATRÍCULAS ══════════════
+function renderMatriculas(){
+  popularSelect('m-aluno');
+  document.getElementById('tabela-matriculas').innerHTML=db.matriculas.map(m=>{
+    const a=db.alunos.find(al=>al.id===m.alunoId);
+    const cor={Ativa:'verde',Inativa:'vermelho',Pendente:'amarelo'}[m.status]||'azul';
+    return `<tr>
+      <td><strong>${a?a.nome:'—'}</strong></td>
+      <td>${m.cat}</td>
+      <td>${m.data}</td>
+      <td>R$ ${m.valor.toLocaleString('pt-BR')}</td>
+      <td><span class="badge badge-${cor}">${m.status}</span></td>
+      <td><div class="table-actions">
+        <button class="btn btn-sm btn-danger" onclick="excluirMatricula(${m.id})">🗑️</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function salvarMatricula(){
+  const alunoId=parseInt(document.getElementById('m-aluno').value);
+  const valor=parseFloat(document.getElementById('m-valor').value)||0;
+  db.matriculas.push({id:db.nextId.matriculas++,alunoId,cat:document.getElementById('m-cat').value,data:document.getElementById('m-data').value,valor,status:document.getElementById('m-status').value});
+  closeModal('modal-matricula');
+  renderMatriculas();
+  showToast('✅ Matrícula registrada!','verde');
+}
+
+function excluirMatricula(id){
+  if(!confirm('Remover esta matrícula?'))return;
+  db.matriculas=db.matriculas.filter(m=>m.id!==id);
+  renderMatriculas();
+}
+
+// ══════════════ MENSALIDADES ══════════════
+function renderMensalidades(){
+  popularSelect('men-aluno');
+  const filtro=document.getElementById('filtro-mes').value;
+  const lista=filtro?db.mensalidades.filter(m=>m.mes===filtro):db.mensalidades;
+  document.getElementById('tabela-mensalidades').innerHTML=lista.map(m=>{
+    const a=db.alunos.find(al=>al.id===m.alunoId);
+    const cor={Pago:'verde',Pendente:'amarelo',Atrasado:'vermelho'}[m.status]||'azul';
+    return `<tr>
+      <td><strong>${a?a.nome:'—'}</strong></td>
+      <td>${m.mes}</td>
+      <td>${m.venc}</td>
+      <td>R$ ${m.valor.toLocaleString('pt-BR')}</td>
+      <td><span class="badge badge-${cor}">${m.status}</span></td>
+      <td><div class="table-actions">
+        ${m.status!=='Pago'?`<button class="btn btn-sm btn-verde" onclick="marcarPago(${m.id})">✅ Pago</button>`:''}
+        ${m.status!=='Pago'?`<button class="btn btn-sm" style="background:#25d366;color:#fff;font-size:.75rem" onclick="enviarWhatsApp(${m.alunoId},${m.id})">💬 Cobrar</button>`:''}
+        <button class="btn btn-sm btn-danger" onclick="excluirMens(${m.id})">🗑️</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+function salvarMensalidade(){
+  const alunoId=parseInt(document.getElementById('men-aluno').value);
+  const valor=parseFloat(document.getElementById('men-valor').value)||0;
+  db.mensalidades.push({id:db.nextId.mensalidades++,alunoId,mes:document.getElementById('men-mes').value,venc:document.getElementById('men-venc').value,valor,status:document.getElementById('men-status').value});
+  closeModal('modal-mensalidade');
+  renderMensalidades();
+  showToast('✅ Mensalidade lançada!','verde');
+}
+
+function marcarPago(id){
+  const m=db.mensalidades.find(x=>x.id===id);
+  if(m){m.status='Pago';renderMensalidades();showToast('✅ Marcado como pago!','verde');}
+}
+
+function excluirMens(id){
+  db.mensalidades=db.mensalidades.filter(m=>m.id!==id);
+  renderMensalidades();
+}
+
+// ══════════════ AVISOS ══════════════
+function renderAvisos(){
+  document.getElementById('lista-avisos').innerHTML=db.avisos.map(a=>`
+    <div class="aviso-card">
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <h4>${a.titulo}</h4>
+        <button class="btn btn-sm btn-danger" onclick="excluirAviso(${a.id})">🗑️</button>
+      </div>
+      <p>${a.msg}</p>
+      <div class="aviso-date">📅 ${a.data}</div>
+    </div>`).join('');
+}
+
+function salvarAviso(){
+  const titulo=document.getElementById('av-titulo').value.trim();
+  const msg=document.getElementById('av-msg').value.trim();
+  if(!titulo||!msg){showToast('❌ Preencha título e mensagem','vermelho');return;}
+  db.avisos.unshift({id:db.nextId.avisos++,titulo,msg,data:new Date().toISOString().split('T')[0]});
+  closeModal('modal-aviso');
+  renderAvisos();
+  showToast('✅ Aviso publicado!','verde');
+}
+
+function excluirAviso(id){
+  db.avisos=db.avisos.filter(a=>a.id!==id);
+  renderAvisos();
+}
+
+// ══════════════ RELATÓRIOS ══════════════
+function renderRelatorios(){
+  const totalReceita=db.mensalidades.filter(m=>m.status==='Pago').reduce((s,m)=>s+m.valor,0);
+  const totalPend=db.mensalidades.filter(m=>m.status!=='Pago').reduce((s,m)=>s+m.valor,0);
+  document.getElementById('rel-financeiro').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:.6rem">
+      <div style="display:flex;justify-content:space-between;padding:.6rem;background:var(--cinza);border-radius:8px"><span>Total Recebido</span><strong style="color:var(--verde)">R$ ${totalReceita.toLocaleString('pt-BR')}</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:.6rem;background:var(--cinza);border-radius:8px"><span>A Receber</span><strong style="color:var(--vermelho)">R$ ${totalPend.toLocaleString('pt-BR')}</strong></div>
+      <div style="display:flex;justify-content:space-between;padding:.6rem;background:var(--cinza);border-radius:8px"><span>Alunos Ativos</span><strong>${db.alunos.filter(a=>a.status==='Ativo').length}</strong></div>
+    </div>`;
+
+  const cats=[...new Set(db.alunos.map(a=>a.cat))];
+  document.getElementById('rel-categorias').innerHTML=cats.map(c=>{
+    const n=db.alunos.filter(a=>a.cat===c).length;
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem;border-bottom:1px solid var(--cinza)">
+      <span style="font-size:.85rem">${c}</span><span class="badge badge-azul">${n} aluno${n!==1?'s':''}</span></div>`;
+  }).join('');
+
+  const inad=db.mensalidades.filter(m=>m.status==='Atrasado');
+  document.getElementById('rel-inadimplentes').innerHTML=inad.length?
+    inad.map(m=>{const a=db.alunos.find(al=>al.id===m.alunoId);return`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:.6rem;border-bottom:1px solid var(--cinza)">
+        <span><strong>${a?a.nome:'—'}</strong> — ${m.mes} / R$ ${m.valor}</span>
+        <button class="btn btn-sm" style="background:#25d366;color:#fff" onclick="enviarWhatsApp(${m.alunoId},${m.id})">💬 Cobrar</button>
+      </div>`;}).join('')
+    :'<p style="color:var(--verde);font-size:.85rem;padding:.5rem">✅ Nenhum inadimplente!</p>';
+}
+
+// ══════════════ WHATSAPP ══════════════
+function enviarWhatsApp(alunoId,mensId){
+  const a=db.alunos.find(x=>x.id===alunoId);
+  const m=db.mensalidades.find(x=>x.id===mensId);
+  if(!a||!m)return;
+  const tel=a.tel.replace(/\D/g,'');
+  const msg=encodeURIComponent(`Olá, ${a.resp}! 😊\n\nPassamos para lembrar que a mensalidade de *${a.nome}* referente ao mês de *${m.mes}* está ${m.status==='Atrasado'?'*em atraso*':'*pendente*'}.\n\n💰 Valor: R$ ${m.valor}\n📅 Vencimento: ${m.venc}\n\nQualquer dúvida, estamos à disposição!\n\n*Escolinha do Ypiranga* ⚽`);
+  window.open(`https://wa.me/55${tel}?text=${msg}`,'_blank');
+}
+
+function enviarWhatsAppContato(alunoId){
+  const a=db.alunos.find(x=>x.id===alunoId);
+  if(!a)return;
+  const tel=a.tel.replace(/\D/g,'');
+  window.open(`https://wa.me/55${tel}`,'_blank');
+}
+
+// ══════════════ ÁREA DO RESPONSÁVEL ══════════════
+function initResp(aluno){
+  document.getElementById('resp-nome-sidebar').textContent=aluno.resp;
+  document.getElementById('resp-aluno-sidebar').textContent=aluno.nome;
+  document.getElementById('resp-welcome').textContent=`Olá, ${aluno.resp}!`;
+  document.getElementById('resp-aluno-info').textContent=`Aluno: ${aluno.nome} — ${aluno.cat}`;
+  document.getElementById('r-categoria').textContent=aluno.cat.split('(')[0].trim();
+  const mens=db.mensalidades.filter(m=>m.alunoId===aluno.id);
+  document.getElementById('r-pagas').textContent=mens.filter(m=>m.status==='Pago').length;
+  document.getElementById('r-pendentes').textContent=mens.filter(m=>m.status!=='Pago').length;
+  const recentes=mens.slice(-3).reverse().map(m=>`
+    <div class="mensalidade-item">
+      <span class="mes">${m.mes} ${new Date(m.venc).getFullYear()}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="valor">R$ ${m.valor}</span>
+        <span class="badge badge-${{Pago:'verde',Pendente:'amarelo',Atrasado:'vermelho'}[m.status]}">${m.status}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('resp-mens-recentes').innerHTML=recentes||'<p style="color:var(--cinza-dk);font-size:.85rem">Nenhuma mensalidade.</p>';
+  renderRespMens(aluno.id);
+  renderRespHistorico(aluno.id);
+  renderRespAvisos();
+  respNav('inicio',document.querySelector('#page-resp .nav-item'));
+}
+
+function respNav(sec,el){
+  document.querySelectorAll('#page-resp .nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#page-resp [id^="rsec-"]').forEach(s=>s.classList.add('hidden'));
+  document.getElementById('rsec-'+sec).classList.remove('hidden');
+  const titles={'inicio':'Início','mensalidades-resp':'Mensalidades','historico':'Histórico','avisos-resp':'Avisos'};
+  document.getElementById('resp-page-title').textContent=titles[sec]||sec;
+}
+
+function renderRespMens(alunoId){
+  const mens=db.mensalidades.filter(m=>m.alunoId===alunoId);
+  document.getElementById('resp-mens-lista').innerHTML=mens.map(m=>`
+    <div class="mensalidade-item">
+      <div><span class="mes">${m.mes}</span><br><span style="font-size:.75rem;color:var(--cinza-dk)">Venc: ${m.venc}</span></div>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="valor">R$ ${m.valor}</span>
+        <span class="badge badge-${{Pago:'verde',Pendente:'amarelo',Atrasado:'vermelho'}[m.status]}">${m.status}</span>
+      </div>
+    </div>`).join('')||'<p style="padding:1rem;color:var(--cinza-dk);font-size:.85rem">Nenhuma mensalidade registrada.</p>';
+}
+
+function renderRespHistorico(alunoId){
+  const mens=db.mensalidades.filter(m=>m.alunoId===alunoId);
+  document.getElementById('resp-historico-tabela').innerHTML=mens.map(m=>`
+    <tr>
+      <td>${m.mes}</td><td>${m.venc}</td>
+      <td>R$ ${m.valor}</td>
+      <td><span class="badge badge-${{Pago:'verde',Pendente:'amarelo',Atrasado:'vermelho'}[m.status]}">${m.status}</span></td>
+    </tr>`).join('');
+}
+
+function renderRespAvisos(){
+  document.getElementById('resp-avisos-lista').innerHTML=db.avisos.map(a=>`
+    <div class="aviso-card">
+      <h4>${a.titulo}</h4><p>${a.msg}</p>
+      <div class="aviso-date">📅 ${a.data}</div>
+    </div>`).join('');
+}
+
+// ══════════════ HELPERS ══════════════
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='modal-matricula'||id==='modal-mensalidade') popularSelect(id==='modal-matricula'?'m-aluno':'men-aluno');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open')}));
+
+function popularSelect(id){
+  const sel=document.getElementById(id);
+  sel.innerHTML=db.alunos.map(a=>`<option value="${a.id}">${a.nome}</option>`).join('');
+}
+
+function showToast(msg,tipo=''){
+  const t=document.createElement('div');
+  t.className='toast'+(tipo?' '+tipo:'');
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3200);
+}
+
+function toggleSidebar(){
+  document.getElementById('admin-sidebar').classList.toggle('open');
+  document.getElementById('admin-overlay').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('admin-sidebar').classList.remove('open');
+  document.getElementById('admin-overlay').classList.remove('open');
+}
+function toggleRespSidebar(){
+  document.getElementById('resp-sidebar').classList.toggle('open');
+  document.getElementById('resp-overlay').classList.toggle('open');
+}
+function closeRespSidebar(){
+  document.getElementById('resp-sidebar').classList.remove('open');
+  document.getElementById('resp-overlay').classList.remove('open');
+}
+</script>
+
+</body>
+</html>
